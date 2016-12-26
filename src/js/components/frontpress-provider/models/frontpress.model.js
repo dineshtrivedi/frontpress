@@ -3,6 +3,7 @@ var module = angular.module("frontpress.components.frontpress-provider");
 function FrontPressProvider(FrontPressConfigurationFile, $disqusProvider){
 	var configure = {
 		load: load,
+		loadFromJson: loadFromJson,
 		loadRoutes: loadRoutes,
 		overrides: null,
 		pageSize: null,
@@ -85,7 +86,11 @@ function FrontPressProvider(FrontPressConfigurationFile, $disqusProvider){
 		}
 	}
 
-	function load(){
+	function loadFromJson(){
+		configure.load(FrontPressConfigurationFile);
+	}
+
+	function load(configurationObject){
 
 		var configsToFunctions = {
 			restApiUrl: configure.setRestApiUrl,
@@ -100,7 +105,7 @@ function FrontPressProvider(FrontPressConfigurationFile, $disqusProvider){
 		};
 
 		for(var config in configsToFunctions){
-			configsToFunctions[config](FrontPressConfigurationFile[config]);
+			configsToFunctions[config](configurationObject[config]);
 		}
 
 		var defaultTemplateUrlList = {
@@ -167,14 +172,13 @@ function FrontPressProvider(FrontPressConfigurationFile, $disqusProvider){
 			_setTitleAsDefaultIfEmpty();
 		}
 
-        if (angular.isUndefined(FrontPressConfigurationFile.restApiUrl)) {
+        if (angular.isUndefined(configurationObject.restApiUrl)) {
             throw "[frontpress missing variable]: restApiUrl is mandatory. You should provide this variable using frontpress.json file or $FrontPressProvider in you app config.";
         }
 
-        if (angular.isUndefined(FrontPressConfigurationFile.apiVersion)) {
+        if (angular.isUndefined(configurationObject.apiVersion)) {
             throw "[frontpress missing variable]: apiVersion is mandatory. You should provide this variable using frontpress.json file or $FrontPressProvider in you app config.";
         }
-
 	}
 
 	function Frontpress(){
