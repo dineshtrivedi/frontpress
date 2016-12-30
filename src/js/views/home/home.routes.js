@@ -4,6 +4,13 @@ configHome.$inject = ["$stateProvider", "$urlRouterProvider", "$FrontPressProvid
 
 function configHome($stateProvider, $urlRouterProvider, $FrontPressProvider){
 
+    $FrontPressProvider.configure.startPromise();
+    var promise = $FrontPressProvider.configure.setSomeValueAndResolvePromise("teste");
+
+    promise.then(function(value){
+        console.log(value);
+    })
+
     $FrontPressProvider.configure.loadRoutes();
 
     var stateHome = {

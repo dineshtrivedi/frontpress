@@ -20,8 +20,39 @@ function FrontPressProvider(FrontPressConfigurationFile, $disqusProvider){
 		routes: null,
 		titles: null,
 		siteName: null,
-		setSiteName: setSiteName
+		setSiteName: setSiteName,
+		startPromise: startPromise,
+		resolvePromise: resolvePromise,
+		promise: null,
+		someValue: null,
+		setSomeValueAndResolvePromise: setSomeValueAndResolvePromise
 	};
+
+	if(!configure.promise){
+		var injector = angular.injector(['ng']);
+        configure.q = injector.get('$q');				
+	}
+
+	function startPromise(){
+		if(!configure.promise){
+			configure.promise = configure.q.defer();
+		}
+	}
+
+	function setSomeValueAndResolvePromise(someValue){
+		configure.someValue = someValue;
+		if(configure.promise){
+			configure.promise.resolve(someValue);
+			return configure.promise.promise;
+		}		
+	}
+
+	function resolvePromise(value){
+		if(configure.promise){
+			return configure.promise.resolve(value);
+		}
+	}
+
 
 	function setPageSize(pageSize){
 		configure.pageSize = pageSize;

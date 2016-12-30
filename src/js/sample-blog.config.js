@@ -20,6 +20,7 @@ function SampleBlogConfig($FrontPressProvider){
    };
 
     $FrontPressProvider.configure.loadFromJson();
+    $FrontPressProvider.configure.setSomeValueAndResolvePromise("this is sparta");
 }
 
 module.config(SampleBlogConfig);
