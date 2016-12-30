@@ -3,13 +3,12 @@ angular.module("frontpress.views.home").config(configHome);
 configHome.$inject = ["$stateProvider", "$urlRouterProvider", "$FrontPressProvider"];
 
 function configHome($stateProvider, $urlRouterProvider, $FrontPressProvider){
-
-    $FrontPressProvider.configure.startPromise();
-    var promise = $FrontPressProvider.configure.setSomeValueAndResolvePromise("teste");
+    
+    var promise = $FrontPressProvider.configure.setSomeValueAndResolvePromise();
 
     promise.then(function(value){
         console.log(value);
-    })
+    });
 
     $FrontPressProvider.configure.loadRoutes();
 

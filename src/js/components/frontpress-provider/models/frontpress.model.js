@@ -40,11 +40,14 @@ function FrontPressProvider(FrontPressConfigurationFile, $disqusProvider){
 	}
 
 	function setSomeValueAndResolvePromise(someValue){
-		configure.someValue = someValue;
-		if(configure.promise){
-			configure.promise.resolve(someValue);
-			return configure.promise.promise;
+		
+		if(!someValue){
+			configure.promise = configure.q.defer();
+		} else {
+			configure.someValue = someValue;			
+			configure.promise.resolve(configure.someValue);
 		}		
+		return configure.promise.promise;
 	}
 
 	function resolvePromise(value){
